@@ -7,9 +7,10 @@ const {
   addUserToGroup,
   removeUserFromGroup,
 } = require("../controllers/chatControllers");
-const { protect } = require("../middlewares/authMiddleware");
+const { protect } = require("../middlewares/authMiddleware"); // for authorization - acts as a middleware
 const router = express.Router();
 
+//redirect to thier respective controllers
 router.route("/").post(protect, accessChat);
 router.route("/").get(protect, fetchChats);
 router.route("/createGroup").post(protect, createGroupChat);

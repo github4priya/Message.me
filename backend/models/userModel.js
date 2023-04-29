@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
+//schema for the user
 const userSchema = mongoose.Schema(
   {
     name: {
@@ -20,7 +21,7 @@ const userSchema = mongoose.Schema(
       type: String,
       require: true,
       default:
-        "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
+        "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg", // default image of the user
     },
   },
   {
@@ -28,10 +29,12 @@ const userSchema = mongoose.Schema(
   }
 );
 
+//async function for matching the password
 userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
+//before saving the user information during registration, encrypt the password
 userSchema.pre("save", async function (next) {
   if (!this.isModified) {
     next();
@@ -41,5 +44,6 @@ userSchema.pre("save", async function (next) {
   this.password = await bcrypt.hash(this.password, salt);
 });
 
+//convert the schema to model
 const User = mongoose.model("User", userSchema);
 module.exports = User;

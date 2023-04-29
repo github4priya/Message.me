@@ -9,7 +9,7 @@ const messageRoutes = require("./routes/messageRoutes");
 const path = require("path");
 
 dotenv.config();
-connectDB();
+connectDB(); // db connect
 const app = express();
 
 app.use(express.json());
@@ -23,12 +23,12 @@ app.use(express.json());
 //   res.send(singleChat);
 // });
 
+//redirect to the routes
 app.use("/api/users", userRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/message", messageRoutes);
 
 // development
-
 const __dirname1 = path.resolve();
 if (process.env.Node_ENV === "production") {
   app.use(express.static(path.join(__dirname1, "/frontend/build")));
@@ -36,14 +36,15 @@ if (process.env.Node_ENV === "production") {
   app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname1, "frontend", "build", "index.html"));
   });
+  //development
 } else {
   app.get("/", (req, res) => {
     res.send("api is running");
   });
 }
-
 // development
 
+//server running on port 5000
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, console.log(`Server started in ${PORT}`.yellow.bold));

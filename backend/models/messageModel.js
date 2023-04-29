@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+
+//schema for the message
 const messageSchema = mongoose.Schema(
   {
     sender: {
@@ -19,6 +21,7 @@ const messageSchema = mongoose.Schema(
   }
 );
 
+//convert the message schema to the model
 const Message = mongoose.model("Message", messageSchema);
 
 module.exports = Message;
